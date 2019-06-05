@@ -1,3 +1,5 @@
 *.iml
 *.svn
 *.svn-base
+/jwatch
+/target
