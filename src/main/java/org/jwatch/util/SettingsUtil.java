@@ -241,7 +241,8 @@ public class SettingsUtil
     // move all jwatch files to their own subdirectory
     // if we cannot write files in 
     public static String getBasePath() {
-    	String basedir = "/var/lo";
+    	String basedir = System.getProperty("user.dir");
+	log.debug("Using " + basedir + " as base dir");
     	String jwatchHome = getTestedBasePath(basedir);
     	if (jwatchHome == null || jwatchHome.length() < 1) {
     		basedir = (String) System.getProperties().get("user.home");
