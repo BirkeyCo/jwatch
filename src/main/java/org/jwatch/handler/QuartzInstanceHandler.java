@@ -419,12 +419,17 @@ public class QuartzInstanceHandler
         String jobName = StringUtils.trimToNull((String) map.get("jobName"));
         String groupName = StringUtils.trimToNull((String) map.get("groupName"));
         String scheduleID = StringUtils.trimToNull((String) map.get("sid"));
-        log.info("run now for job = " + jobName + " group = " + groupName);
+        log.info("run now for job = " + jobName
+		 + " group = " + groupName
+		 + " scheduleID = " + scheduleID);
         try {
             QuartzInstance quartzInstance = QuartzInstanceService.getQuartzInstanceByID(qiid);
 //            quartzInstance.getJmxAdapter().triggerJobWithVolatileTrigger(quartzInstance, scheduleID, jobName, groupName, null);
             quartzInstance.getJmxAdapter().triggerJob(quartzInstance, scheduleID, jobName, groupName, null);
             jsonObject.put(GlobalConstants.JSON_SUCCESS_KEY, true);
+	    //This is temp work around until I fix the twarc clojure lib defjob macro.
+	    //Will remove this then.
+	    jsonObject = JSONUtil.buildError(GlobalConstants.MESSAGE_ERR_RUN_JOB);
         } catch (Throwable t) {
             log.error(t);
             jsonObject = JSONUtil.buildError(GlobalConstants.MESSAGE_ERR_RUN_JOB);
